@@ -1,14 +1,14 @@
-From a8e3bee5214a628d0169502438036dd35f03737b Mon Sep 17 00:00:00 2001
+From 76e3b6ddf3b06eabb18560ab3b48366a3b7500f8 Mon Sep 17 00:00:00 2001
 From: Jan Janssen <jan-janssen@users.noreply.github.com>
-Date: Tue, 9 Feb 2021 10:00:22 +0100
+Date: Tue, 9 Feb 2021 11:26:51 +0100
 Subject: [PATCH] Update Makefile
 
 ---
- make/Makefile | 18 +++++++-----------
- 1 file changed, 7 insertions(+), 11 deletions(-)
+ make/Makefile | 23 +++++++++--------------
+ 1 file changed, 9 insertions(+), 14 deletions(-)
 
 diff --git a/make/Makefile b/make/Makefile
-index 56da73b..80dc3e1 100644
+index 56da73b..4d30105 100644
 --- a/make/Makefile
 +++ b/make/Makefile
 @@ -19,9 +19,9 @@ SRCLMP 		= $(SRCPATH)external/MLIP4LAMMPS/lammps_interface.cpp
@@ -24,19 +24,22 @@ index 56da73b..80dc3e1 100644
  BLAS_SLIB 	= -lopenblas
  BLAS_OBJPATH 	= ../lib/blas_obj/
  
-@@ -40,10 +40,10 @@ BIN 		= $(BINPATH)mlp
+@@ -40,11 +40,11 @@ BIN 		= $(BINPATH)mlp
  
  CC 		= mpicxx
  CC_SRL	= g++
 -CFLAGS 		= -O2 -std=c++11 
 +# CFLAGS 		= -O2 -std=c++11 
  LINK 		= mpicxx 
- LINK_SRL	= g++
+-LINK_SRL	= g++
 -LINKFLAGS 	= -o 
+-ARCHIVE 	= ar
++LINK_SRL	= $(CXX)
 +LINKFLAGS 	= $(LDFLAGS) -o 
- ARCHIVE 	= ar
++ARCHIVE 	= $(AR)
  ARCHFLAG1 	= -x
  ARCHFLAG2 	= -rvs
+ 
 @@ -53,16 +53,12 @@ ARCHFLAG2 	= -rvs
  all:	$(OBJCMN) 
  
@@ -56,3 +59,8 @@ index 56da73b..80dc3e1 100644
  
  mlp_srl:	$(OBJCMN_SRL) $(OBJBIN_SRL)
  	(cd ../blas/OpenBLAS/ && make && make install)
+@@ -87,4 +83,3 @@ $(OBJBIN_SRL): ADDCFLAG := -I$(INCDIR) # -DMLIP_DEBUG
+ clean:
+ 	rm -f $(OBJCMN) $(OBJCMN_SRL) $(OBJBIN) $(OBJBIN_SRL) $(BIN) $(OBJLMP) $(SRCPATH)external/MLIP4USPEX/relax_mpi.o  \
+ 	$(SRCPATH)utils/*.o $(LIB) $(SRCPATH)*~ 
+-
