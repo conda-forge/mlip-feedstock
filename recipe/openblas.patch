@@ -1,14 +1,14 @@
-From 4d12a649a158d4948890de9b72b969c65ce1c690 Mon Sep 17 00:00:00 2001
+From a8e3bee5214a628d0169502438036dd35f03737b Mon Sep 17 00:00:00 2001
 From: Jan Janssen <jan-janssen@users.noreply.github.com>
-Date: Sat, 6 Feb 2021 19:45:15 +0100
+Date: Tue, 9 Feb 2021 10:00:22 +0100
 Subject: [PATCH] Update Makefile
 
 ---
- make/Makefile | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
+ make/Makefile | 18 +++++++-----------
+ 1 file changed, 7 insertions(+), 11 deletions(-)
 
 diff --git a/make/Makefile b/make/Makefile
-index 56da73b..dfe26f5 100644
+index 56da73b..80dc3e1 100644
 --- a/make/Makefile
 +++ b/make/Makefile
 @@ -19,9 +19,9 @@ SRCLMP 		= $(SRCPATH)external/MLIP4LAMMPS/lammps_interface.cpp
@@ -16,9 +16,10 @@ index 56da73b..dfe26f5 100644
  HEADERSUTL 	= $(wildcard $(SRCPATH)utils/*.h)
  
 -INCDIR		= ../blas/include
-+INCDIR		= $(PREFIX)/include
- INCLIB		= ../blas/lib/libopenblas.a
+-INCLIB		= ../blas/lib/libopenblas.a
 -BLAS_LIBPATH 	= ../blas/lib
++INCDIR		= $(PREFIX)/include
++INCLIB		= $(PREFIX)/lib
 +BLAS_LIBPATH 	= $(PREFIX)/lib
  BLAS_SLIB 	= -lopenblas
  BLAS_OBJPATH 	= ../lib/blas_obj/
@@ -32,11 +33,20 @@ index 56da73b..dfe26f5 100644
  LINK 		= mpicxx 
  LINK_SRL	= g++
 -LINKFLAGS 	= -o 
-+LINKFLAGS 	= $(LDFLAGS) -o
++LINKFLAGS 	= $(LDFLAGS) -o 
  ARCHIVE 	= ar
  ARCHFLAG1 	= -x
  ARCHFLAG2 	= -rvs
-@@ -61,8 +61,7 @@ lib: 	$(OBJCMN_SRL) $(OBJLMP)
+@@ -53,16 +53,12 @@ ARCHFLAG2 	= -rvs
+ all:	$(OBJCMN) 
+ 
+ lib: 	$(OBJCMN_SRL) $(OBJLMP)
+-	(cd ../blas/OpenBLAS/ && make && make install)
+ 	mkdir -p ../lib
+-	mkdir -p $(BLAS_OBJPATH)
+-	cd $(BLAS_OBJPATH) && $(ARCHIVE) $(ARCHFLAG1) ../$(INCLIB) 
+-	$(ARCHIVE) $(ARCHFLAG2) $(LIB) $(OBJCMN_SRL) $(OBJLMP) $(BLAS_OBJPATH)*.o 
++	$(ARCHIVE) $(ARCHFLAG2) $(LIB) $(OBJCMN_SRL) $(OBJLMP)
  	rm -f $(OBJCMN_SRL) $(OBJLMP)
  
  mlp:	$(OBJCMN) $(OBJBIN)
@@ -46,8 +56,3 @@ index 56da73b..dfe26f5 100644
  
  mlp_srl:	$(OBJCMN_SRL) $(OBJBIN_SRL)
  	(cd ../blas/OpenBLAS/ && make && make install)
-@@ -87,4 +86,3 @@ $(OBJBIN_SRL): ADDCFLAG := -I$(INCDIR) # -DMLIP_DEBUG
- clean:
- 	rm -f $(OBJCMN) $(OBJCMN_SRL) $(OBJBIN) $(OBJBIN_SRL) $(BIN) $(OBJLMP) $(SRCPATH)external/MLIP4USPEX/relax_mpi.o  \
- 	$(SRCPATH)utils/*.o $(LIB) $(SRCPATH)*~ 
--
