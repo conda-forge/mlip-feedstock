@@ -1,14 +1,14 @@
-From 76e3b6ddf3b06eabb18560ab3b48366a3b7500f8 Mon Sep 17 00:00:00 2001
+From 6b7e5c0f7b090367dbce917b8025f8e2cb62b04f Mon Sep 17 00:00:00 2001
 From: Jan Janssen <jan-janssen@users.noreply.github.com>
-Date: Tue, 9 Feb 2021 11:26:51 +0100
+Date: Tue, 9 Feb 2021 11:41:42 +0100
 Subject: [PATCH] Update Makefile
 
 ---
- make/Makefile | 23 +++++++++--------------
- 1 file changed, 9 insertions(+), 14 deletions(-)
+ make/Makefile | 25 ++++++++++---------------
+ 1 file changed, 10 insertions(+), 15 deletions(-)
 
 diff --git a/make/Makefile b/make/Makefile
-index 56da73b..4d30105 100644
+index 56da73b..1936c8a 100644
 --- a/make/Makefile
 +++ b/make/Makefile
 @@ -19,9 +19,9 @@ SRCLMP 		= $(SRCPATH)external/MLIP4LAMMPS/lammps_interface.cpp
@@ -24,11 +24,13 @@ index 56da73b..4d30105 100644
  BLAS_SLIB 	= -lopenblas
  BLAS_OBJPATH 	= ../lib/blas_obj/
  
-@@ -40,11 +40,11 @@ BIN 		= $(BINPATH)mlp
+@@ -39,12 +39,12 @@ BIN 		= $(BINPATH)mlp
+ # ------ SETTINGS ------
  
  CC 		= mpicxx
- CC_SRL	= g++
+-CC_SRL	= g++
 -CFLAGS 		= -O2 -std=c++11 
++CC_SRL	        = $(CXX)
 +# CFLAGS 		= -O2 -std=c++11 
  LINK 		= mpicxx 
 -LINK_SRL	= g++
