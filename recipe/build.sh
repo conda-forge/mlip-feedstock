@@ -2,6 +2,7 @@
 
 # Build 
 cd make
+make lib
 make mlp
 
 # Test 
@@ -14,4 +15,6 @@ cd ..
 
 # Install
 mkdir -p ${PREFIX}/bin
+mkdir -p ${PREFIX}/lib
 cp make/mlp ${PREFIX}/bin
+cp lib/libmlip.a ${PREFIX}/lib/libmlip.a
