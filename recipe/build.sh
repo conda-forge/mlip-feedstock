@@ -9,9 +9,11 @@ make mlp
 export OMPI_MCA_plm=isolated
 export OMPI_MCA_btl_vader_single_copy_mechanism=none
 export OMPI_MCA_rmaps_base_oversubscribe=yes
-cd ../test
-../make/mlp self-test
-cd ..
+if [[ -z "$MACOSX_DEPLOYMENT_TARGET" ]]; then
+  cd ../test
+  ../make/mlp self-test
+  cd ..
+fi
 
 # Install
 mkdir -p ${PREFIX}/bin
