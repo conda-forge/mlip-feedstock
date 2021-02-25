@@ -14,7 +14,6 @@ source:
 build:
   number: 2
   skip: true  # [win]
-  skip: true  # [macos and {{ mpi }} == openmpi]
 
 requirements:
   build:
