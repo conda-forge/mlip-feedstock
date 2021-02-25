@@ -14,7 +14,7 @@ source:
 build:
   number: 2
   skip: true  # [win]
-  skip: true  # [macos and mpi=='mpich']
+  skip: true  # [macos and mpi == 'mpich']
 
 requirements:
   build:
