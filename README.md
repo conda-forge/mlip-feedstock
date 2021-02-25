@@ -50,13 +50,6 @@ Current build status
                 </a>
               </td>
             </tr><tr>
-              <td>osx_64_mpimpich</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=11820&branchName=master">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/mlip-feedstock?branchName=master&jobName=osx&configuration=osx_64_mpimpich" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
               <td>osx_64_mpiopenmpi</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=11820&branchName=master">
