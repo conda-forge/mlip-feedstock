@@ -18,6 +18,8 @@ libcblas:
 - 3.8 *netlib
 mpi:
 - mpich
+openmpi:
+- '4'
 target_platform:
 - linux-64
 zip_keys:
