@@ -1,17 +1,15 @@
 #!/bin/bash
 
 # Build 
-cd make
-make lib
+./configure
 make mlp
+make libinterface
 
 # Test 
 export OMPI_MCA_plm=isolated
 export OMPI_MCA_btl_vader_single_copy_mechanism=none
 export OMPI_MCA_rmaps_base_oversubscribe=yes
-cd ../test
-../make/mlp self-test
-cd ..
+make test
 
 # Install
 mkdir -p ${PREFIX}/bin
