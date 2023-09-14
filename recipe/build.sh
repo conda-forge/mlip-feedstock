@@ -2,7 +2,7 @@
 
 # Build 
 cd make
-make lib
+make libinterface
 make mlp
 
 # Test 
@@ -17,4 +17,4 @@ cd ..
 mkdir -p ${PREFIX}/bin
 mkdir -p ${PREFIX}/lib
 cp make/mlp ${PREFIX}/bin
-cp lib/libmlip.a ${PREFIX}/lib/libmlip.a
+cp lib/lib_mlip_interface.a ${PREFIX}/lib/lib_mlip_interface.a
