@@ -1,18 +1,18 @@
 {% set name = "mlip" %}
-{% set version = "1.0" %}
+{% set version = "3.0" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://gitlab.com/ashapeev/mlip-1-legacy/-/archive/master/mlip-1-legacy-master.tar.gz
+  url:  https://gitlab.com/ashapeev/mlip-3/-/archive/main/mlip-3-main.tar.gz
   sha256: b7b8624ea9e1ee57bdc083e214c607c0de8a87643dcdc8d56c6c7084a4109f68
   patches:
     - openblas.patch
 
 build:
-  number: 2
+  number: 0
   skip: true  # [win or osx and mpi == 'mpich']
 
 requirements:
