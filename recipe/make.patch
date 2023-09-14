@@ -1,0 +1,21 @@
+From 47decc856f114e264235ade5474dfeb9b36fb753 Mon Sep 17 00:00:00 2001
+From: Jan Janssen <jan-janssen@users.noreply.github.com>
+Date: Thu, 14 Sep 2023 15:49:02 +0200
+Subject: [PATCH] Update Makefile
+
+---
+ Makefile | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Makefile b/Makefile
+index 979e2f4..9142ab0 100644
+--- a/Makefile
++++ b/Makefile
+@@ -119,6 +119,7 @@ endif
+ # -----------------   END libinterface   -----------------
+ 
+ # -----------------   BEGIN cblas   -----------------
++.PHONY: cblas
+ cblas: $(LIB_DIR)/lib_mlip_cblas.a
+ SRC_BLAS := $(wildcard blas/*.f)
+ SRC_BLAS += $(wildcard blas/cblas/*.c)
