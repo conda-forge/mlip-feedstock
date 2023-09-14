@@ -14,5 +14,5 @@ make test
 # Install
 mkdir -p ${PREFIX}/bin
 mkdir -p ${PREFIX}/lib
-cp make/mlp ${PREFIX}/bin
+cp bin/mlp ${PREFIX}/bin
 cp lib/libmlip.a ${PREFIX}/lib/libmlip.a
