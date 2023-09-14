@@ -15,4 +15,4 @@ make test
 mkdir -p ${PREFIX}/bin
 mkdir -p ${PREFIX}/lib
 cp bin/mlp ${PREFIX}/bin
-cp lib/libmlip.a ${PREFIX}/lib/libmlip.a
+cp lib/lib_mlip_interface.a ${PREFIX}/lib/lib_mlip_interface.a
