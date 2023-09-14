@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Build 
-./configure
+./configure --blas=openblas
 make mlp
 make libinterface
 
