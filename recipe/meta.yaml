@@ -7,7 +7,7 @@ package:
 
 source:
   url:  https://gitlab.com/ashapeev/mlip-3/-/archive/main/mlip-3-main.tar.gz
-  sha256: b7b8624ea9e1ee57bdc083e214c607c0de8a87643dcdc8d56c6c7084a4109f68
+  sha256: 27191ea9b54a417f17f41dd05dbef8c8f85f7a351b5567c961372287247402e9
   patches:
     - openblas.patch
 
