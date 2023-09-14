@@ -10,6 +10,7 @@ source:
   sha256: 27191ea9b54a417f17f41dd05dbef8c8f85f7a351b5567c961372287247402e9
   patches:
     - openblas.patch
+    - make.patch
 
 build:
   number: 0
