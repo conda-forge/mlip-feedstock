@@ -11,7 +11,7 @@ Summary: Machine Learning of Interatomic Potentials (MLIP)
 
 Development: https://mlip.skoltech.ru/documentation/
 
-Documentation: https://gitlab.com/ashapeev/mlip-1-legacy
+Documentation: https://gitlab.com/ashapeev/mlip-3
 
 Machine Learning of Interatomic Potentials (MLIP) is a software
 being developed and mainted by the group of Alexander Shapeev
