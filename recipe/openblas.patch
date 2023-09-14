@@ -1,68 +1,25 @@
-From 6b7e5c0f7b090367dbce917b8025f8e2cb62b04f Mon Sep 17 00:00:00 2001
+From 10a615026c655e3476725f10ab901e9eeee1262a Mon Sep 17 00:00:00 2001
 From: Jan Janssen <jan-janssen@users.noreply.github.com>
-Date: Tue, 9 Feb 2021 11:41:42 +0100
-Subject: [PATCH] Update Makefile
+Date: Thu, 14 Sep 2023 15:25:28 +0200
+Subject: [PATCH] Update configure
 
 ---
- make/Makefile | 25 ++++++++++---------------
- 1 file changed, 10 insertions(+), 15 deletions(-)
+ configure | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/make/Makefile b/make/Makefile
-index 56da73b..1936c8a 100644
---- a/make/Makefile
-+++ b/make/Makefile
-@@ -19,9 +19,9 @@ SRCLMP 		= $(SRCPATH)external/MLIP4LAMMPS/lammps_interface.cpp
- HEADERSMLP 	= $(wildcard $(SRCPATH)*.h) $(wildcard $(SRCPATH)common/*.h) $(wildcard $(SRCPATH)drivers/*.h)
- HEADERSUTL 	= $(wildcard $(SRCPATH)utils/*.h)
- 
--INCDIR		= ../blas/include
--INCLIB		= ../blas/lib/libopenblas.a
--BLAS_LIBPATH 	= ../blas/lib
-+INCDIR		= $(PREFIX)/include
-+INCLIB		= $(PREFIX)/lib
-+BLAS_LIBPATH 	= $(PREFIX)/lib
- BLAS_SLIB 	= -lopenblas
- BLAS_OBJPATH 	= ../lib/blas_obj/
- 
-@@ -39,12 +39,12 @@ BIN 		= $(BINPATH)mlp
- # ------ SETTINGS ------
- 
- CC 		= mpicxx
--CC_SRL	= g++
--CFLAGS 		= -O2 -std=c++11 
-+CC_SRL	        = $(CXX)
-+# CFLAGS 		= -O2 -std=c++11 
- LINK 		= mpicxx 
--LINK_SRL	= g++
--LINKFLAGS 	= -o 
--ARCHIVE 	= ar
-+LINK_SRL	= $(CXX)
-+LINKFLAGS 	= $(LDFLAGS) -o 
-+ARCHIVE 	= $(AR)
- ARCHFLAG1 	= -x
- ARCHFLAG2 	= -rvs
- 
-@@ -53,16 +53,12 @@ ARCHFLAG2 	= -rvs
- all:	$(OBJCMN) 
- 
- lib: 	$(OBJCMN_SRL) $(OBJLMP)
--	(cd ../blas/OpenBLAS/ && make && make install)
- 	mkdir -p ../lib
--	mkdir -p $(BLAS_OBJPATH)
--	cd $(BLAS_OBJPATH) && $(ARCHIVE) $(ARCHFLAG1) ../$(INCLIB) 
--	$(ARCHIVE) $(ARCHFLAG2) $(LIB) $(OBJCMN_SRL) $(OBJLMP) $(BLAS_OBJPATH)*.o 
-+	$(ARCHIVE) $(ARCHFLAG2) $(LIB) $(OBJCMN_SRL) $(OBJLMP)
- 	rm -f $(OBJCMN_SRL) $(OBJLMP)
- 
- mlp:	$(OBJCMN) $(OBJBIN)
--	(cd ../blas/OpenBLAS/ && make && make install)
--	$(LINK) $^  $(LINKFLAGS)  $(BIN) -L$(BLAS_LIBPATH) -lopenblas
-+	$(LINK) $^  $(LINKFLAGS)  $(BIN) -L$(BLAS_LIBPATH) -lcblas
- 
- mlp_srl:	$(OBJCMN_SRL) $(OBJBIN_SRL)
- 	(cd ../blas/OpenBLAS/ && make && make install)
-@@ -87,4 +83,3 @@ $(OBJBIN_SRL): ADDCFLAG := -I$(INCDIR) # -DMLIP_DEBUG
- clean:
- 	rm -f $(OBJCMN) $(OBJCMN_SRL) $(OBJBIN) $(OBJBIN_SRL) $(BIN) $(OBJLMP) $(SRCPATH)external/MLIP4USPEX/relax_mpi.o  \
- 	$(SRCPATH)utils/*.o $(LIB) $(SRCPATH)*~ 
--
+diff --git a/configure b/configure
+index 7a8758a..237589d 100755
+--- a/configure
++++ b/configure
+@@ -217,9 +217,9 @@ case "${blas}" in
+     openblas )
+ 	echo "" >> ${MKFILE}
+ 	echo "# Flags for compilation using OpenBLAS" >> ${MKFILE}
+-        echo "LDFLAGS += -L${blasroot}/lib -l:libopenblas.a ${linklib}" >> ${MKFILE}
++        echo "LDFLAGS += -L${blasroot}/lib -lcblas ${linklib}" >> ${MKFILE}
+         echo "CPPFLAGS += -I${blasroot}/include" >> ${MKFILE}
+-        pythonlibs+=" :libopenblas.a"
++        pythonlibs+=" -lcblas"
+         pythonlibdir="${blasroot}/lib"
+         pythonincdir="${blasroot}/include"
+         ;;
