@@ -1,0 +1,68 @@
+From e045219b9804cc766ae63ce9a8045bed53089af6 Mon Sep 17 00:00:00 2001
+From: Jan Janssen <jan-janssen@users.noreply.github.com>
+Date: Thu, 14 Sep 2023 16:01:09 +0200
+Subject: [PATCH] Update Makefile
+
+---
+ Makefile | 28 ----------------------------
+ 1 file changed, 28 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 979e2f4..9eb81c2 100644
+--- a/Makefile
++++ b/Makefile
+@@ -38,15 +38,6 @@ OBJ_SERIAL += $(SRC)
+ OBJ_SERIAL := $(OBJ_SERIAL:$(SRC_DIR)/%=$(OBJ_DIR)/serial/$(SRC_DIR)/%.o)
+ #OBJ_SERIAL := $(OBJ_SERIAL:$(SRC_DEV_DIR)/%=$(OBJ_DIR)/serial/$(SRC_DEV_DIR)/%.o)
+ 
+-SRC_BLAS := $(wildcard blas/*.f)
+-SRC_BLAS += $(wildcard blas/cblas/*.c)
+-SRC_BLAS += $(wildcard blas/cblas/*.f)
+-
+-OBJ_BLAS_SERIAL += $(SRC_BLAS)
+-OBJ_BLAS_SERIAL := $(OBJ_BLAS_SERIAL:blas/%=$(OBJ_DIR)/serial/blas/%.o)
+-OBJ_BLAS_MPI += $(SRC_BLAS)
+-OBJ_BLAS_MPI := $(OBJ_BLAS_MPI:blas/%=$(OBJ_DIR)/mpi/blas/%.o)
+-
+ # Rule for creating directories; .PRECIOUS for not attempting stupid deletions upon completing make
+ .PRECIOUS: %/
+ %/:
+@@ -98,9 +89,6 @@ ifneq (1, $(USE_MPI))
+ libinterface: $(LIB_DIR)/lib_mlip_interface.a
+ 
+ OBJ_INTERFACE += $(OBJ_DIR)/serial/$(SRC_DIR)/external/interface.cpp.o
+-ifneq (1, $(words $(filter -DMLIP_INTEL_MKL, $(CXXFLAGS))))
+-  OBJ_INTERFACE += $(OBJ_BLAS_SERIAL)
+-endif
+ 
+ $(LIB_DIR)/lib_mlip_interface.a: $(OBJ_SERIAL) $(OBJ_INTERFACE) $(PREREQ) | $(LIB_DIR)/
+ 	$(AR) -rs $@ $^
+@@ -109,28 +97,12 @@ else
+ libinterface: $(LIB_DIR)/lib_mlip_interface.a
+ 
+ OBJ_INTERFACE += $(OBJ_DIR)/mpi/$(SRC_DIR)/external/interface.cpp.o
+-ifneq (1, $(words $(filter -DMLIP_INTEL_MKL, $(CXXFLAGS))))
+-  OBJ_INTERFACE += $(OBJ_BLAS_MPI)
+-endif
+ 
+ $(LIB_DIR)/lib_mlip_interface.a: $(OBJ_MPI) $(OBJ_INTERFACE) $(PREREQ) | $(LIB_DIR)/
+ 	$(AR) -rs $@ $^
+ endif
+ # -----------------   END libinterface   -----------------
+ 
+-# -----------------   BEGIN cblas   -----------------
+-cblas: $(LIB_DIR)/lib_mlip_cblas.a
+-SRC_BLAS := $(wildcard blas/*.f)
+-SRC_BLAS += $(wildcard blas/cblas/*.c)
+-SRC_BLAS += $(wildcard blas/cblas/*.f)
+-OBJ_BLAS += $(SRC_BLAS)
+-OBJ_BLAS := $(OBJ_BLAS:blas/%=$(OBJ_DIR)/serial/blas/%.o)
+-
+-$(LIB_DIR)/lib_mlip_cblas.a: $(OBJ_BLAS) | $(LIB_DIR)/
+-	$(AR) -rs $@ $^
+-
+-# -----------------   END cblas   -----------------
+-
+ # ----------------   BEGIN libmlip ----------------
+ .PHONY: libmlip
+ libmlip: $(LIB_DIR)/lib_mlip.a
