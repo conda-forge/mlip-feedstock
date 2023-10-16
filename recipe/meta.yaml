@@ -8,9 +8,6 @@ package:
 source:
   url: https://gitlab.com/ashapeev/mlip-2/-/archive/master/mlip-2-master.tar.gz
   sha256: ae4c78cba93f84b274af779e26319e3f5b4ba5305cef0e0c0f111b6b82cf2d40
-  patches:
-    - openblas.patch
-    - make.patch
 
 build:
   number: 0
