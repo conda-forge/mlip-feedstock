@@ -1,68 +1,69 @@
-From e045219b9804cc766ae63ce9a8045bed53089af6 Mon Sep 17 00:00:00 2001
+From fb76444141f73d22496cee2e8d1a99270c1a83de Mon Sep 17 00:00:00 2001
 From: Jan Janssen <jan-janssen@users.noreply.github.com>
-Date: Thu, 14 Sep 2023 16:01:09 +0200
+Date: Mon, 16 Oct 2023 18:04:34 +0200
 Subject: [PATCH] Update Makefile
 
 ---
- Makefile | 28 ----------------------------
- 1 file changed, 28 deletions(-)
+ Makefile | 42 ------------------------------------------
+ 1 file changed, 42 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index 979e2f4..9eb81c2 100644
+index 9963eff..1f920b4 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -38,15 +38,6 @@ OBJ_SERIAL += $(SRC)
- OBJ_SERIAL := $(OBJ_SERIAL:$(SRC_DIR)/%=$(OBJ_DIR)/serial/$(SRC_DIR)/%.o)
- #OBJ_SERIAL := $(OBJ_SERIAL:$(SRC_DEV_DIR)/%=$(OBJ_DIR)/serial/$(SRC_DEV_DIR)/%.o)
+@@ -80,21 +80,6 @@ ifneq (0, $(words $(filter mlp libinterface,$(MAKECMDGOALS))))
+        # obj directory name suffix 
+         OBJ_SUFFIX = /ser
  
--SRC_BLAS := $(wildcard blas/*.f)
--SRC_BLAS += $(wildcard blas/cblas/*.c)
--SRC_BLAS += $(wildcard blas/cblas/*.f)
+-        ifneq (1, $(words $(filter -DMLIP_INTEL_MKL, $(CXXFLAGS))))
+-          SRC_BLAS := $(wildcard ./blas/*.f) 
+-          SRC_CBLAS := $(wildcard ./cblas/*.c) 
+-          SRC_CBLAS += $(wildcard ./cblas/*.f) 
 -
--OBJ_BLAS_SERIAL += $(SRC_BLAS)
--OBJ_BLAS_SERIAL := $(OBJ_BLAS_SERIAL:blas/%=$(OBJ_DIR)/serial/blas/%.o)
--OBJ_BLAS_MPI += $(SRC_BLAS)
--OBJ_BLAS_MPI := $(OBJ_BLAS_MPI:blas/%=$(OBJ_DIR)/mpi/blas/%.o)
+-          SRC_FILES += $(SRC_BLAS)
+-          SRC_FILES += $(SRC_CBLAS)
 -
- # Rule for creating directories; .PRECIOUS for not attempting stupid deletions upon completing make
- .PRECIOUS: %/
- %/:
-@@ -98,9 +89,6 @@ ifneq (1, $(USE_MPI))
- libinterface: $(LIB_DIR)/lib_mlip_interface.a
+-          OBJ_FILES += $(SRC_BLAS:./blas/%=%.o) 
+-          OBJ_FILES += $(SRC_CBLAS:./cblas/%=%.o) 
+-
+-          TARGET_PRERQ =
+-
+-        endif
+-
+    endif
+    # use C++11 standart for c++ files
+    CXXFLAGS += -std=c++11
+@@ -111,33 +96,6 @@ ifneq (0, $(words $(filter mlp libinterface,$(MAKECMDGOALS))))
+    OBJ_FILES += $(SRC_COMMON:$(SRC_DIR)/%=%.o) 
+    OBJ_FILES += $(SRC_EXTRA:$(SRC_DEV_DIR)/%=%.o) 
  
- OBJ_INTERFACE += $(OBJ_DIR)/serial/$(SRC_DIR)/external/interface.cpp.o
--ifneq (1, $(words $(filter -DMLIP_INTEL_MKL, $(CXXFLAGS))))
--  OBJ_INTERFACE += $(OBJ_BLAS_SERIAL)
--endif
- 
- $(LIB_DIR)/lib_mlip_interface.a: $(OBJ_SERIAL) $(OBJ_INTERFACE) $(PREREQ) | $(LIB_DIR)/
- 	$(AR) -rs $@ $^
-@@ -109,28 +97,12 @@ else
- libinterface: $(LIB_DIR)/lib_mlip_interface.a
- 
- OBJ_INTERFACE += $(OBJ_DIR)/mpi/$(SRC_DIR)/external/interface.cpp.o
--ifneq (1, $(words $(filter -DMLIP_INTEL_MKL, $(CXXFLAGS))))
--  OBJ_INTERFACE += $(OBJ_BLAS_MPI)
--endif
- 
- $(LIB_DIR)/lib_mlip_interface.a: $(OBJ_MPI) $(OBJ_INTERFACE) $(PREREQ) | $(LIB_DIR)/
- 	$(AR) -rs $@ $^
+-else ifneq (0, $(words $(filter cblas,$(MAKECMDGOALS))))
+-
+-   CC = $(CC_LIB)
+-   FC = $(FC_LIB)
+-
+-   # source files
+-   SRC_BLAS := $(wildcard ./blas/*.f) 
+-   SRC_CBLAS := $(wildcard ./cblas/*.c) 
+-   SRC_CBLAS += $(wildcard ./cblas/*.f) 
+-
+-   SRC_FILES := $(SRC_BLAS)
+-   SRC_FILES += $(SRC_CBLAS)
+-
+-   OBJ_FILES := $(SRC_BLAS:./blas/%=%.o) 
+-   OBJ_FILES += $(SRC_CBLAS:./cblas/%=%.o) 
+-
+-   CPPFLAGS += -fPIC
+-   FFLAGS += -fPIC
+-
+-   LIB_TARGET = lib_mlip_cblas.a
+-   TARGET_LIB = cblas
+-
+-   # obj directory name suffix 
+-   OBJ_SUFFIX = /cblas
+-
+-   TARGET_PRERQ =
+-
  endif
- # -----------------   END libinterface   -----------------
  
--# -----------------   BEGIN cblas   -----------------
--cblas: $(LIB_DIR)/lib_mlip_cblas.a
--SRC_BLAS := $(wildcard blas/*.f)
--SRC_BLAS += $(wildcard blas/cblas/*.c)
--SRC_BLAS += $(wildcard blas/cblas/*.f)
--OBJ_BLAS += $(SRC_BLAS)
--OBJ_BLAS := $(OBJ_BLAS:blas/%=$(OBJ_DIR)/serial/blas/%.o)
--
--$(LIB_DIR)/lib_mlip_cblas.a: $(OBJ_BLAS) | $(LIB_DIR)/
--	$(AR) -rs $@ $^
--
--# -----------------   END cblas   -----------------
--
- # ----------------   BEGIN libmlip ----------------
- .PHONY: libmlip
- libmlip: $(LIB_DIR)/lib_mlip.a
+ NODEPS += distclean help
