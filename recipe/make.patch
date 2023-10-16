@@ -1,27 +1,69 @@
-From c6058464309a43ecfce43a69f3342a88e513be12 Mon Sep 17 00:00:00 2001
+From fb76444141f73d22496cee2e8d1a99270c1a83de Mon Sep 17 00:00:00 2001
 From: Jan Janssen <jan-janssen@users.noreply.github.com>
-Date: Mon, 16 Oct 2023 16:59:06 +0200
+Date: Mon, 16 Oct 2023 18:04:34 +0200
 Subject: [PATCH] Update Makefile
 
 ---
- Makefile | 7 -------
- 1 file changed, 7 deletions(-)
+ Makefile | 42 ------------------------------------------
+ 1 file changed, 42 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index 9963eff..56708b1 100644
+index 9963eff..1f920b4 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -157,13 +157,6 @@ all:
- #
- -include $(CURDIR)/make/Makefile
+@@ -80,21 +80,6 @@ ifneq (0, $(words $(filter mlp libinterface,$(MAKECMDGOALS))))
+        # obj directory name suffix 
+         OBJ_SUFFIX = /ser
  
--ifneq (0, $(words $(filter mlp libinterface,$(MAKECMDGOALS))))
--# target to build inner blas
--$(LIB_DIR)/lib_mlip_cblas.a:
--	@ $(MAKE) --no-print-directory -f $(MK_THIS) cblas
+-        ifneq (1, $(words $(filter -DMLIP_INTEL_MKL, $(CXXFLAGS))))
+-          SRC_BLAS := $(wildcard ./blas/*.f) 
+-          SRC_CBLAS := $(wildcard ./cblas/*.c) 
+-          SRC_CBLAS += $(wildcard ./cblas/*.f) 
 -
--endif
+-          SRC_FILES += $(SRC_BLAS)
+-          SRC_FILES += $(SRC_CBLAS)
 -
- .PHONY: distclean
- distclean: clean
- 	@ $(RM) -f make/config.mk
+-          OBJ_FILES += $(SRC_BLAS:./blas/%=%.o) 
+-          OBJ_FILES += $(SRC_CBLAS:./cblas/%=%.o) 
+-
+-          TARGET_PRERQ =
+-
+-        endif
+-
+    endif
+    # use C++11 standart for c++ files
+    CXXFLAGS += -std=c++11
+@@ -111,33 +96,6 @@ ifneq (0, $(words $(filter mlp libinterface,$(MAKECMDGOALS))))
+    OBJ_FILES += $(SRC_COMMON:$(SRC_DIR)/%=%.o) 
+    OBJ_FILES += $(SRC_EXTRA:$(SRC_DEV_DIR)/%=%.o) 
+ 
+-else ifneq (0, $(words $(filter cblas,$(MAKECMDGOALS))))
+-
+-   CC = $(CC_LIB)
+-   FC = $(FC_LIB)
+-
+-   # source files
+-   SRC_BLAS := $(wildcard ./blas/*.f) 
+-   SRC_CBLAS := $(wildcard ./cblas/*.c) 
+-   SRC_CBLAS += $(wildcard ./cblas/*.f) 
+-
+-   SRC_FILES := $(SRC_BLAS)
+-   SRC_FILES += $(SRC_CBLAS)
+-
+-   OBJ_FILES := $(SRC_BLAS:./blas/%=%.o) 
+-   OBJ_FILES += $(SRC_CBLAS:./cblas/%=%.o) 
+-
+-   CPPFLAGS += -fPIC
+-   FFLAGS += -fPIC
+-
+-   LIB_TARGET = lib_mlip_cblas.a
+-   TARGET_LIB = cblas
+-
+-   # obj directory name suffix 
+-   OBJ_SUFFIX = /cblas
+-
+-   TARGET_PRERQ =
+-
+ endif
+ 
+ NODEPS += distclean help
