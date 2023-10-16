@@ -18,9 +18,9 @@ index 06e11a2..bfff1b1 100755
 -        echo "CC_LIB  = gcc" >> ${MKFILE}
 -        echo "CXX_LIB = g++" >> ${MKFILE}
 -        echo "FC_LIB  = gfortran" >> ${MKFILE}
-+        echo "CC_LIB  = $(CC)" >> ${MKFILE}
-+        echo "CXX_LIB = $(CXX)" >> ${MKFILE}
-+        echo "FC_LIB  = $(FC)" >> ${MKFILE}
++        echo "CC_LIB  = ${CC}" >> ${MKFILE}
++        echo "CXX_LIB = ${CXX}" >> ${MKFILE}
++        echo "FC_LIB  = ${FC}" >> ${MKFILE}
          ;;
      * ) Halt "unknown compiler \"${compiler}\"." ;;
  esac
