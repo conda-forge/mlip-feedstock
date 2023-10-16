@@ -1,25 +1,35 @@
-From 10a615026c655e3476725f10ab901e9eeee1262a Mon Sep 17 00:00:00 2001
+From f272b59fabf419788d1936e6e0efd39fbe0b0f61 Mon Sep 17 00:00:00 2001
 From: Jan Janssen <jan-janssen@users.noreply.github.com>
-Date: Thu, 14 Sep 2023 15:25:28 +0200
+Date: Mon, 16 Oct 2023 16:45:45 +0200
 Subject: [PATCH] Update configure
 
 ---
- configure | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ configure | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/configure b/configure
-index 7a8758a..237589d 100755
+index 06e11a2..bfff1b1 100755
 --- a/configure
 +++ b/configure
-@@ -217,9 +217,9 @@ case "${blas}" in
+@@ -144,9 +144,9 @@ case "${compiler}" in
+         fi
+         echo "" >> ${MKFILE}
+         echo "# Compilers for the library" >> ${MKFILE}
+-        echo "CC_LIB  = gcc" >> ${MKFILE}
+-        echo "CXX_LIB = g++" >> ${MKFILE}
+-        echo "FC_LIB  = gfortran" >> ${MKFILE}
++        echo "CC_LIB  = $(CC)" >> ${MKFILE}
++        echo "CXX_LIB = $(CXX)" >> ${MKFILE}
++        echo "FC_LIB  = $(FC)" >> ${MKFILE}
+         ;;
+     * ) Halt "unknown compiler \"${compiler}\"." ;;
+ esac
+@@ -185,7 +185,7 @@ case "${blas}" in
+         echo "CXXFLAGS += -DMLIP_INTEL_MKL " >> ${MKFILE}
+         ;;
      openblas )
- 	echo "" >> ${MKFILE}
- 	echo "# Flags for compilation using OpenBLAS" >> ${MKFILE}
 -        echo "LDFLAGS += -L${blasroot}/lib -l:libopenblas.a ${linklib}" >> ${MKFILE}
 +        echo "LDFLAGS += -L${blasroot}/lib -lcblas ${linklib}" >> ${MKFILE}
          echo "CPPFLAGS += -I${blasroot}/include" >> ${MKFILE}
--        pythonlibs+=" :libopenblas.a"
-+        pythonlibs+=" -lcblas"
-         pythonlibdir="${blasroot}/lib"
-         pythonincdir="${blasroot}/include"
          ;;
+     embedded )
