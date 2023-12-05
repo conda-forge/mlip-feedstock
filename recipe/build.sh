@@ -1,7 +1,11 @@
 #!/bin/bash
 
+if [[ "${mpi}" == "nompi" ]]; then
+    CONFIGURE_ARGS="--no-mpi"
+fi
+
 # Build 
-./configure --blas=openblas --blas-root=${PREFIX}
+./configure --blas=openblas --blas-root=${PREFIX} ${CONFIGURE_ARGS}
 make mlp
 make libinterface
 
