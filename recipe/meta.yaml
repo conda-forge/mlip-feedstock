@@ -13,7 +13,13 @@ source:
     - make.patch
 
 build:
-  number: 0
+  number: 1
+  {% if mpi != 'nompi' %}
+  {% set mpi_prefix = "mpi_" + mpi %}
+  {% else %}
+  {% set mpi_prefix = "nompi" %}
+  {% endif %}
+  string: {{ mpi_prefix }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
   skip: true  # [win or osx]
 
 requirements:
@@ -23,7 +29,7 @@ requirements:
     - make 
   host:
     - libcblas
-    - {{ mpi }}
+    - {{ mpi }}  # [mpi != 'nompi']
   run:
 
 about:
