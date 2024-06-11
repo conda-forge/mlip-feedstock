@@ -11,9 +11,6 @@ make mlp ${MAKE_ARGS}
 make libinterface ${MAKE_ARGS}
 
 # Test 
-export OMPI_MCA_plm=isolated
-export OMPI_MCA_btl_vader_single_copy_mechanism=none
-export OMPI_MCA_rmaps_base_oversubscribe=yes
 make test ${MAKE_ARGS}
 
 # Install
