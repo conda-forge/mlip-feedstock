@@ -2,9 +2,9 @@
 {% set version = "3.0" %}
 
 {% if mpi != 'nompi' %}
-  {% set mpi_prefix = "mpi_" + mpi %}
+{% set mpi_prefix = "mpi_" + mpi %}
 {% else %}
-  {% set mpi_prefix = "nompi" %}
+{% set mpi_prefix = "nompi" %}
 {% endif %}
 
 package:
