@@ -3,7 +3,7 @@
 
 package:
   name: {{ name|lower }}
-  version: {{ version }}
+  version: "{{ version }}"
 
 source:
   url:  https://gitlab.com/ashapeev/mlip-3/-/archive/main/mlip-3-main.tar.gz
