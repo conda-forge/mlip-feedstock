@@ -20,7 +20,7 @@ build:
   {% set mpi_prefix = "nompi" %}
   {% endif %}
   string: {{ mpi_prefix }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
-  skip: true  # [win or osx]
+  skip: true  # [win]
 
 requirements:
   build:
