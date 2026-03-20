@@ -1,15 +1,9 @@
 {% set name = "mlip" %}
 {% set version = "3.0" %}
 
-{% if mpi != 'nompi' %}
-{% set mpi_prefix = "mpi_" + mpi %}
-{% else %}
-{% set mpi_prefix = "nompi" %}
-{% endif %}
-
 package:
   name: {{ name|lower }}
-  version: {{ version }}
+  version: "{{ version }}"
 
 source:
   url:  https://gitlab.com/ashapeev/mlip-3/-/archive/main/mlip-3-main.tar.gz
@@ -20,6 +14,11 @@ source:
 
 build:
   number: 5
+  {% if mpi != 'nompi' %}
+  {% set mpi_prefix = "mpi_" + mpi %}
+  {% else %}
+  {% set mpi_prefix = "nompi" %}
+  {% endif %}
   string: {{ mpi_prefix }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
   skip: true  # [win]
 
